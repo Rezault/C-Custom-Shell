@@ -2,6 +2,7 @@
 # CSC1021/customshell
 
 bin/customshell: src/customshell.c src/commands.c
+	mkdir -p bin
 	gcc src/customshell.c src/commands.c -o bin/customshell
 	@echo "Build complete, run ./bin/customshell"
 
@@ -11,5 +12,5 @@ clean:
 	@echo "Cleaned compiled files"
 
 
-run: shell
+run: bin/customshell
 	./bin/customshell
