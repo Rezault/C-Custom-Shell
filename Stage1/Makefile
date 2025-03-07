@@ -1,5 +1,6 @@
-# Razvan Dobasu, 23363473 - Operating Systems Project 1
-# CSC1021/customshell
+# Name: Razvan Gabriel Dobasu
+# Student Number: 23363473
+# I acknowledge the DCU academic integrity policy.
 
 bin/customshell: src/customshell.c src/commands.c
 	mkdir -p bin

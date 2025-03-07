@@ -1,3 +1,7 @@
+//Name: Razvan Gabriel Dobasu
+//Student Number: 23363473
+//I acknowledge the DCU academic integrity policy.
+
 #ifndef COMMANDS_H
 #define COMMANDS_H
 
