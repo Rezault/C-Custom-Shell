@@ -3,7 +3,7 @@ Stage 1 supports built-in commands, batch mode execution and basic error handlin
 
 Instructions:
 1. Run "make" in the Stage1 folder to compile the shell.
-2. Run "make run" or "./bin/customshell" to run the shell.
+2. Run "./bin/customshell" to run the shell.
 3. Run "help" while in the shell for a list of commands.
 
 Enjoy!
