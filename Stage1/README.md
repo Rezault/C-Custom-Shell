@@ -11,9 +11,15 @@ Enjoy!
 STAGE 1 USER MANUAL
 -------------------------
 cd - Changes to a specified directory.
+
 clr - Clears the screen.
+
 environ - Lists all environment strings.
+
 echo - Print something onto the screen.
+
 help - Displays a basic user manual.
+
 pause - Pause operation of the terminal until 'Enter' is pressed.
+
 quit - Quits the terminal.
