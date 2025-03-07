@@ -1,8 +1,8 @@
 # Razvan Dobasu, 23363473 - Operating Systems Project 1
 # CSC1021/customshell
 
-shell: src/shell.c
-	gcc src/shell.c -o bin/customshell
+bin/customshell: src/customshell.c src/commands.c
+	gcc src/customshell.c src/commands.c -o bin/customshell
 	@echo "Build complete, run ./bin/customshell"
 
 
