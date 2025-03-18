@@ -43,6 +43,20 @@ void tokenise(char *buff, char **args) {
 }
 
 int main(int argc, char*argv[]) {
+	char shell_path[buff_size];
+
+	// Get the full path of the running shell executable
+	ssize_t len = readlink("/proc/self/exe", shell_path, sizeof(shell_path) - 1);
+	if (len == -1) {
+		perror("Error getting shell path");
+		return 1;
+	}
+	shell_path[len] = '\0'; // Null-terminate the string
+
+	// Set shell environment variable
+	setenv("shell", shell_path, 1);
+
+
 	char buff[buff_size]; // Input buffer for storing user input
 	char *args[max_args]; // Array storing arguments
 
