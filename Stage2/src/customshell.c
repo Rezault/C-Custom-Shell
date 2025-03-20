@@ -17,7 +17,7 @@
 #define DELIMITERS " \t\n"
 
 // Handles command execution
-void exec_command(char **args, char *input_file, char *output_file, int append_mode) {
+void exec_command(char **args, char *input_file, char *output_file, int append_mode, int background) {
 	if (!args[0]) return; // No command found, just return
 
 	// Loop through available commands
@@ -120,7 +120,13 @@ void exec_command(char **args, char *input_file, char *output_file, int append_m
 		}
 
 	} else {
-		waitpid(pid, NULL, 0);
+		// Parent process
+		if (!background) {
+			waitpid(pid, NULL, 0);
+		} else {
+			// For background processes, print the PID and immediately return to prompt
+			printf("Process %d running in background\n", pid);
+		}
 	}
 
 	// No command found
@@ -128,7 +134,7 @@ void exec_command(char **args, char *input_file, char *output_file, int append_m
 }
 
 // Tokenise input
-void tokenise(char *buff, char **args, char **input_file, char **output_file, int *append_mode) {
+void tokenise(char *buff, char **args, char **input_file, char **output_file, int *append_mode, int *background) {
 	// Tokenise input and pass into exec_command
 	char *token = strtok(buff, DELIMITERS); // Create tokens
 	int arg_count = 0; // Keep track of the num of arguments
@@ -136,6 +142,7 @@ void tokenise(char *buff, char **args, char **input_file, char **output_file, in
 	*input_file = NULL;
 	*output_file = NULL;
 	*append_mode = 0; // 0 = overwrite, 1 = append
+	*background = 0; // 0 = not background, 1 = background
 
 	while (token != NULL && arg_count < max_args - 1) {
 		if (strcmp(token, "<") == 0) {
@@ -165,6 +172,14 @@ void tokenise(char *buff, char **args, char **input_file, char **output_file, in
 		token = strtok(NULL, DELIMITERS);
 	}
 	args[arg_count] = NULL; // Null-terminate the array
+
+	// Check if the last token is "&" indicating background execution
+	if (arg_count > 0 && strcmp(args[arg_count - 1], "&") == 0) {
+		*background = 1;
+		args[arg_count - 1] = NULL; // Remove the "&" token
+	} else {
+		*background = 0;
+	}
 }
 
 int main(int argc, char*argv[]) {	
@@ -186,6 +201,7 @@ int main(int argc, char*argv[]) {
 	char *args[max_args]; // Array storing arguments
 	char *input_file, *output_file; // Keep track of any input/output files
 	int append_mode; // Keep track if we should append or write
+	int background; // Keep track of whether or not we want to run the command in the background
 
 	// Batch mode
 	if (argc == 2) {
@@ -198,8 +214,8 @@ int main(int argc, char*argv[]) {
 		
 		// Read every line in the file, tokenise the command and execute it
 		while (fgets(buff, buff_size, fptr)) {
-			tokenise(buff, args, &input_file, &output_file, &append_mode);
-			exec_command(args, input_file, output_file, append_mode);
+			tokenise(buff, args, &input_file, &output_file, &append_mode, &background);
+			exec_command(args, input_file, output_file, append_mode, background);
 		}
 
 		fclose(fptr);
@@ -217,8 +233,8 @@ int main(int argc, char*argv[]) {
 		printf("(%s) > ", curr_directory);
 		// Tokenise input and execute
 		if (fgets(buff, buff_size, stdin)) {
-			tokenise(buff, args, &input_file, &output_file, &append_mode);
-			exec_command(args, input_file, output_file, append_mode); // Find command and execute it
+			tokenise(buff, args, &input_file, &output_file, &append_mode, &background);
+			exec_command(args, input_file, output_file, append_mode, background); // Find command and execute it
 		}
 	}
 
