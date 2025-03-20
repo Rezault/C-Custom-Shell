@@ -16,6 +16,7 @@
 #define max_args 64
 #define DELIMITERS " \t\n"
 
+
 // Handles command execution
 void exec_command(char **args, char *input_file, char *output_file, int append_mode, int background) {
 	if (!args[0]) return; // No command found, just return
@@ -182,7 +183,7 @@ void tokenise(char *buff, char **args, char **input_file, char **output_file, in
 	}
 }
 
-int main(int argc, char*argv[]) {	
+int main(int argc, char*argv[]) {
 	char shell_path[buff_size];
 
 	// Get the full path of the running shell executable
@@ -224,6 +225,15 @@ int main(int argc, char*argv[]) {
 
 	// No file given, go to main loop
 	while (!feof(stdin)) {
+		// Deal with zombie processes; reap any background children that have finished
+		pid_t finished_pid;
+		int status;
+		while ((finished_pid = waitpid(-1, &status, WNOHANG)) > 0) {
+			// wait for any child processes, check if they exit
+			// reap the exited processes
+		}
+
+		// Get current directory
 		if (getcwd(curr_directory, sizeof(curr_directory)) == NULL) {
 			// Can't find the current directory
 			perror("getcwd");
