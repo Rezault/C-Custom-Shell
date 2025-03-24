@@ -11,7 +11,3 @@ bin/customshell: src/customshell.c src/commands.c
 clean:
 	rm -f bin/customshell
 	@echo "Cleaned compiled files"
-
-
-run: bin/customshell
-	./bin/customshell

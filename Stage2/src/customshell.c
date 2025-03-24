@@ -215,6 +215,7 @@ int main(int argc, char*argv[]) {
 		
 		// Read every line in the file, tokenise the command and execute it
 		while (fgets(buff, buff_size, fptr)) {
+			if (buff[0] == '#') { continue; } 
 			tokenise(buff, args, &input_file, &output_file, &append_mode, &background);
 			exec_command(args, input_file, output_file, append_mode, background);
 		}

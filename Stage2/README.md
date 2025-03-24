@@ -19,14 +19,10 @@ The compiled binary will appear in the **bin/** directory (**./bin/customshell**
 - Run the shell interactively:
 > ./bin/customshell
 
-or
-
-> make run
-
 - Run the shell in batch mode:
-> ./bin/customshell file
+> ./bin/customshell batchfile
 
-The shell reads and executes commands inside of the file provided.
+The shell reads and executes commands inside of the batchfile provided.
 
 # ENVIRONMENT VARIABLES
 - **shell**: Full path of the shell executable.
